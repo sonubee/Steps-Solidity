@@ -1,5 +1,5 @@
 pragma solidity ^0.4.11;
-//0xa77c989bd04e4e0f1f27c9abc74290183c783079
+
 contract Steps{
 
     struct Stepper{
@@ -11,10 +11,10 @@ contract Steps{
     mapping(string => uint) totalPeople;
     mapping(bytes32 => address) addressBook;
 
-    function Steps(){
+    function Steps() public{
     }
 
-    function saveMySteps (uint numSteps, string date){
+    function saveMySteps (uint numSteps, string date) private{
 
         if (steppers[msg.sender].steps[date] == 0 && numSteps > 0){
             //add people count only if new entry
@@ -30,24 +30,26 @@ contract Steps{
         steppers[msg.sender].steps[date] = numSteps;
     }
 
-    function recallMySteps(string date) constant returns (uint numSteps){
+    function recallMySteps(string date) private constant returns (uint numSteps){
         numSteps = steppers[msg.sender].steps[date];
     }
 
-    function everyoneStepsDate(string date) constant returns (uint allSteps){
+    function everyoneStepsDate(string date) private constant returns (uint allSteps){
         allSteps = totalSteps[date];
     }
 
-    function countAllPeopleDate(string date) constant returns (uint allPeople){
+    function countAllPeopleDate(string date) private constant returns (uint allPeople){
         allPeople = totalPeople[date];
     }
 
-    function setAddress(string a, address b){
-        addressBook[sha3(a)] = b;
+    //a=uuid and b=address
+    function setAddress(string a, address b) private{
+        addressBook[keccak256(a)] = b;
     }
 
-    function getAddress(string a) constant returns(address){
-        return addressBook[sha3(a)];
+    //a=uuid
+    function getAddress(string a) private constant returns(address){
+        return addressBook[keccak256(a)];
     }
 
 }
