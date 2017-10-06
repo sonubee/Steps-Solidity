@@ -14,7 +14,7 @@ contract Steps{
     function Steps() public{
     }
 
-    function saveMySteps (uint numSteps, string date) private{
+    function saveMySteps (uint numSteps, string date) public {
 
         if (steppers[msg.sender].steps[date] == 0 && numSteps > 0){
             //add people count only if new entry
@@ -30,25 +30,25 @@ contract Steps{
         steppers[msg.sender].steps[date] = numSteps;
     }
 
-    function recallMySteps(string date) private constant returns (uint numSteps){
+    function recallMySteps(string date) public constant returns (uint numSteps){
         numSteps = steppers[msg.sender].steps[date];
     }
 
-    function everyoneStepsDate(string date) private constant returns (uint allSteps){
+    function everyoneStepsDate(string date) public constant returns (uint allSteps){
         allSteps = totalSteps[date];
     }
 
-    function countAllPeopleDate(string date) private constant returns (uint allPeople){
+    function countAllPeopleDate(string date) public constant returns (uint allPeople){
         allPeople = totalPeople[date];
     }
 
     //a=uuid and b=address
-    function setAddress(string a, address b) private{
+    function setAddress(string a, address b) public{
         addressBook[keccak256(a)] = b;
     }
 
     //a=uuid
-    function getAddress(string a) private constant returns(address){
+    function getAddress(string a) public constant returns(address){
         return addressBook[keccak256(a)];
     }
 
