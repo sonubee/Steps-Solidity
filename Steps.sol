@@ -1,5 +1,5 @@
 pragma solidity ^0.4.11;
-
+//Version 1
 contract Steps{
 
     struct Stepper{
@@ -11,23 +11,24 @@ contract Steps{
     mapping(string => uint) totalPeople;
     mapping(bytes32 => address) addressBook;
 
-    function Steps() public{
+    function Steps() public {
     }
 
     function saveMySteps (uint numSteps, string date) public {
 
-        if (steppers[msg.sender].steps[date] == 0 && numSteps > 0){
+        //save steps if higher than saved before
+        if (steppers[msg.sender].steps[date] < numSteps && numSteps > 0){
             //add people count only if new entry
             totalPeople[date] += 1;
-        }
 
-        //only add additional steps to total count
+              //only add additional steps to total count
         uint currentSteps = steppers[msg.sender].steps[date];
         uint difference = numSteps - currentSteps;
         totalSteps[date] += difference;
 
         //set daily steps
         steppers[msg.sender].steps[date] = numSteps;
+        }
     }
 
     function recallMySteps(string date) public constant returns (uint numSteps){
